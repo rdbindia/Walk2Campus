@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Services\WeatherAppService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Log;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\NotFoundExceptionInterface;
 
 class WeatherAppController extends Controller
 {
@@ -22,7 +24,7 @@ class WeatherAppController extends Controller
 
             return response()->json($weatherData);
 
-        } catch (\Exception $e) {
+        } catch (\Exception|NotFoundExceptionInterface|ContainerExceptionInterface $e) {
             Log::error("displayWeatherData: {$e->getMessage()}",
                 [
                     'trace' => $e->getTraceAsString(),

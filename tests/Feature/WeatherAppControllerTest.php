@@ -50,10 +50,8 @@ class WeatherAppControllerTest extends TestCase
             ->assertJson(['temperature' => 70.0]);
     }
 
-    public function testit_handles_api_errors_gracefully()
+    public function testWhenThereIsAnErrorItThrowsAnException()
     {
-        $this->cacheInterface = Mockery::mock(CacheInterface::class);
-
         $this->weatherAppService
             ->shouldReceive('fetchWeatherData')
             ->with('12345')
@@ -63,6 +61,6 @@ class WeatherAppControllerTest extends TestCase
 
         // Assert that the error is handled correctly
         $response->assertStatus(500)
-            ->assertJsonFragment(['error' => 'Unable to retrieve weather data']);
+            ->assertJson(['error' => 'Unable to retrieve weather data']);
     }
 }
